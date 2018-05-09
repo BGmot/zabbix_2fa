@@ -32,7 +32,6 @@ function select_config() {
 	if (!isset($config)) {
 		$config = DBfetch(DBselect('SELECT c.* FROM config c'));
 	}
-
 	return $config;
 }
 

@@ -53,6 +53,22 @@ function authentication2str($type) {
 	return $authentications[$type];
 }
 
+/**
+ * Get 2FA authentication label.
+ *
+ * @param int $type
+ *
+ * @return string
+ */
+function twofa2str($type) {
+	$authentications = [
+		ZBX_AUTH_2FA_NONE => _('No 2FA'),
+		ZBX_AUTH_2FA_DUO => _('DUO two factor authentication')
+	];
+
+	return $authentications[$type];
+}
+
 /***********************************************
 	CHECK USER ACCESS TO SYSTEM STATUS
 ************************************************/

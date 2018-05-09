@@ -99,6 +99,9 @@ define('ZBX_AUTH_INTERNAL',	0);
 define('ZBX_AUTH_LDAP',		1);
 define('ZBX_AUTH_HTTP',		2);
 
+define('ZBX_AUTH_2FA_NONE',	0);
+define('ZBX_AUTH_2FA_DUO',	1);
+
 define('ZBX_DB_DB2',		'IBM_DB2');
 define('ZBX_DB_MYSQL',		'MYSQL');
 define('ZBX_DB_ORACLE',		'ORACLE');

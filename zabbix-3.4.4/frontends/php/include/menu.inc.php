@@ -273,6 +273,10 @@ function zbx_construct_menu(&$main_menu, &$sub_menus, &$page, $action = null) {
 					'label' => _('Authentication')
 				],
 				[
+					'url' => '2fa.php',
+					'label' => _('Two factor authentication')
+				],
+				[
 					'url' => 'usergrps.php',
 					'label' => _('User groups')
 				],
@@ -308,6 +312,16 @@ function zbx_construct_menu(&$main_menu, &$sub_menus, &$page, $action = null) {
 					'sub_pages' => ['profile.php', 'popup_media.php']
 				]
 			]
+		],
+		'duo' => [
+			'label' => _('DUO'),
+			'user_type' => 0,
+			'default_page_id' => 0,
+			'pages' => [
+				[
+					'url' => 'duo.php'
+				]
+			]
 		]
 	];
 
@@ -321,7 +335,7 @@ function zbx_construct_menu(&$main_menu, &$sub_menus, &$page, $action = null) {
 		if (isset($menu['user_type'])) {
 			$show_menu &= ($menu['user_type'] <= CWebUser::$data['type']);
 		}
-		if ($label == 'login') {
+		if ($label == 'login' || $label == 'duo') {
 			$show_menu = false;
 		}
 

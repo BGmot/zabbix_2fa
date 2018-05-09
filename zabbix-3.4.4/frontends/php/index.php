@@ -60,47 +60,61 @@ if ($config['authentication_type'] == ZBX_AUTH_HTTP) {
 
 // login via form
 if (isset($_REQUEST['enter']) && $_REQUEST['enter'] == _('Sign in')) {
-	// try to login
-	$autoLogin = getRequest('autologin', 0);
-
-	DBstart();
-	$loginSuccess = CWebUser::login(getRequest('name', ''), getRequest('password', ''));
-	DBend(true);
-
-	if ($loginSuccess) {
-		// save remember login preference
-		if (CWebUser::$data['autologin'] != $autoLogin) {
-			API::User()->update([
-				'userid' => CWebUser::$data['userid'],
-				'autologin' => $autoLogin
-			]);
+	$twofa_type = $config['2fa_type'];
+	if ($twofa_type != ZBX_AUTH_2FA_NONE && getRequest('name', '') != ZBX_GUEST_USER) {
+		// Perform 2FA if needed
+		switch($twofa_type) {
+			case ZBX_AUTH_2FA_DUO:
+				DBstart();
+				$loginSuccess = CWebUser::login(getRequest('name', ''), getRequest('password', ''));
+				DBend(true);
+				redirect('duo.php');
+				exit;
 		}
-
-		$request = getRequest('request', '');
-
-		if ($request) {
-			preg_match('/^\/?(?<filename>(?:[a-z0-9\_\.]+)\.php).*$/i', $request, $test_request);
-
-			$request = (array_key_exists('filename', $test_request) && file_exists('./'.$test_request['filename']))
-				? $test_request['filename']
-				: '';
-		}
-
-		if (!zbx_empty($request)) {
-			$url = $request;
-		}
-		elseif (!zbx_empty(CWebUser::$data['url'])) {
-			$url = CWebUser::$data['url'];
-		}
-		else {
-			$url = ZBX_DEFAULT_URL;
-		}
-		redirect($url);
-		exit;
 	}
-	// login failed, fall back to a guest account
 	else {
-		CWebUser::checkAuthentication(null);
+		// try to login
+		$autoLogin = getRequest('autologin', 0);
+
+		DBstart();
+		$loginSuccess = CWebUser::login(getRequest('name', ''), getRequest('password', ''));
+		DBend(true);
+
+		if ($loginSuccess) {
+			// save remember login preference
+			if (CWebUser::$data['autologin'] != $autoLogin) {
+				API::User()->update([
+					'userid' => CWebUser::$data['userid'],
+					'autologin' => $autoLogin
+				]);
+			}
+
+			$request = getRequest('request', '');
+
+			if ($request) {
+				preg_match('/^\/?(?<filename>(?:[a-z0-9\_\.]+)\.php).*$/i', $request, $test_request);
+
+				$request = (array_key_exists('filename', $test_request) && file_exists('./'.$test_request['filename']))
+					? $test_request['filename']
+					: '';
+			}
+
+			if (!zbx_empty($request)) {
+				$url = $request;
+			}
+			elseif (!zbx_empty(CWebUser::$data['url'])) {
+				$url = CWebUser::$data['url'];
+			}
+			else {
+				$url = ZBX_DEFAULT_URL;
+			}
+			redirect($url);
+			exit;
+		}
+		// login failed, fall back to a guest account
+		else {
+			CWebUser::checkAuthentication(null);
+		}
 	}
 }
 else {
