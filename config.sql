@@ -1,0 +1,5 @@
+ALTER TABLE config ADD COLUMN 2fa_type INT(11) DEFAULT 0;
+ALTER TABLE config ADD COLUMN 2fa_duo_api_hostname VARCHAR(255) DEFAULT '';
+ALTER TABLE config ADD COLUMN 2fa_duo_integration_key VARCHAR(255) DEFAULT '';
+ALTER TABLE config ADD COLUMN 2fa_duo_secret_key VARCHAR(255) DEFAULT '';
+ALTER TABLE config ADD COLUMN 2fa_duo_a_key CHAR(40) DEFAULT '';
