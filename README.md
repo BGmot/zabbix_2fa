@@ -4,7 +4,7 @@ This repository contains necessary changes to Zabbix Server v3.4.4 to implement 
 1) Zabbix Server needs to be installed and fully functional (see https://www.zabbix.com/documentation/3.4/manual/installation/install)
 2) Apply changes to DB:
 ```
-mysql -u zabbix -pe<your_password> -h 127.0.0.1 zabbix < config.myql
+mysql -u zabbix -p<your_password> -h 127.0.0.1 zabbix < config.sql
 ```
 3) Copy all the files (alternatively copy only new files and changed files, you can find these looking at commits history) from zabbix-3.4.4/frontends/php/ to php/ folder of your installation
 
