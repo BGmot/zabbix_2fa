@@ -1,3 +1,12 @@
+*** OBSOLETE ***
+
+Please use
+
+https://github.com/BGmot/zabbix
+
+https://github.com/BGmot/zabbix-docker
+
+
 This repository contains necessary changes to Zabbix Server v3.4.4 to implement DUO two-factor authentication (https://duo.com/docs/duoweb). You can see all the diffs here so probably will be able to apply to other Zabbix Server versions too.
  
 * How to use
